@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Singular Foliations for Knit Graph Design</title>
+  <link rel="icon" type="image/x-icon" href="static/images/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Singular Foliations for Knit Graph Design</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://rahulmitra.xyz/" target="_blank">Rahul Mitra</a>,</span>
+                <span class="author-block">
+                  <a href="https://erick2j.github.io/" target="_blank">Erick Jimenez Berumen</a>,</span>
+                  <span class="author-block">
+                    <a href="https://www.megan-hofmann.com/" target="_blank">Megan Hofmann</a>,</span>
+                    <span class="author-block">
+                    <a href="https://cs-people.bu.edu/edchien/" target="_blank">Edward Chien</a></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">Boston University <br> SIGGRAPH, 2024</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="static/pdfs/paper.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <!-- Supplementary PDF link -->
+                    <span class="link-block">
+                      <a href="static/pdfs/supplementary.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img src="static/images/teaser.png"/>
+      <h2 class="subtitle has-text-centered">
+        Via a singular foliations perspective on the course stripe pattern, we are able to automatically match singular triangles (blue/red) and separatrices (cyan) to ensure that <i>all</i> integral curves 
+        (candidate course rows) do not helix. Our improved workflow for [Mitra et al. 2023] extends it to models with non-zero genus, decomposing the input mesh <i>M</i> into cylindrical components along critical level sets of the knitting time function. 
+        We then solve an optimal assignment LP to obtain appropriate linear level set constraints (orange).
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We build upon the stripes-based knit planning framework of [Mitra
+            et al. 2023], and view the resultant stripe pattern through the lens
+            of singular foliations. This perspective views the stripes, and thus
+            the candidate course rows or wale columns, as integral curves of
+            a vector field specified by the spinning form of [Knöppel et al .
+            2015]. We show how to tightly control the topological structure
+            of this vector field with linear level set constraints, preventing
+            helicing of any integral curve. Practically speaking, this obviates
+            the stripe placement constraints of [Mitra et al. 2023] and allows for
+            shifting and variation of the stripe frequency without introducing
+            additional helices. En route, we make the first explicit algebraic
+            characterization of spinning form level set structure within singular
+            triangles, and replace the standard interpolant with an “effective” 
+            one that improves the robustness of knit graph generation. We also
+            extend the model of [Mitra et al. 2023] to surfaces with genus, via a
+            Morse-based cylindrical decomposition, and implement automatic
+            singularity pairing on the resulting components.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{mitra2024singular,
+        title={Singular Foliations for Knit Graph Design},
+        author={Mitra, Rahul and Jimenez Berumen, Erick and Hofmann, Megan and Chien, Edward},
+        booktitle={ACM SIGGRAPH 2024 Conference Proceedings},
+        pages={1--9},
+        year={2024}
+      }</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>,
+            licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
