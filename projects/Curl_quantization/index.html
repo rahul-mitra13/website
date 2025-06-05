@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Curl Quantization for Automatic Placement of Knit Singularities</title>
+  <link rel="icon" type="image/x-icon" href="static/images/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Curl Quantization for Automatic Placement of Knit Singularities</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://rahulmitra.xyz/" target="_blank">Rahul Mitra</a>,</span>
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/matteocouplet-coupletmatteo/" target="_blank">Mattéo Couplet</a>,</span>
+                  <span class="author-block">
+                    <a href="https://tongttwang.github.io/" target="_blank">Tongtong Wang</a>,</span>
+                  <span class="author-block">
+                    <a href="https://kuiwuchn.github.io/" target="_blank">Kui Wu</a>,</span>
+                    <span class="author-block">
+                      <a href="https://www.megan-hofmann.com/" target="_blank">Megan Hofmann</a>,</span>
+                    <span class="author-block">
+                    <a href="https://cs-people.bu.edu/edchien/" target="_blank">Edward Chien</a></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">Boston University, LightSpeed Studios, Northeastern University <br> SIGGRAPH, 2025</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="static/pdfs/paper.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <!-- Supplementary PDF link -->
+                    <span class="link-block">
+                      <a href="static/pdfs/supplementary.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                      </a>
+                    </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img src="static/images/teaser.png"/>
+      <h2 class="subtitle has-text-centered">
+        A knitting time function is computed over an input model, and the curl signal of its gradient is measured in the two orthogonal knitting
+        directions, course and wale. Our method automatically places singularities in regions of high curl while satisfying all structural manufacturing
+        constraints. The orthogonal stripe patterns are intersected to generate a smooth knit graph suitable for both artifact-free yarn-level rendering and
+        machine-knitting.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We develop a method for automatic placement of knit singularities based on
+            curl quantization, extending the knit-planning frameworks of Mitra et al.
+            [2024, 2023]. Stripe patterns are generated that closely follow the isolines of
+            an underlying knitting time function, and has course and wale singularities
+            in regions of high curl for the normalized time function gradient and its 90◦
+            rotated field, respectively. Singularities are placed in an iterative fashion,
+            and we show that this strategy allows us to easily maintain the structural
+            constraints necessary for machine-knitting, e.g., the helix-free constraint,
+            and to satisfy user constraints such as stripe alignment and singularity
+            placement. Our more performant approach obviates the need for a mixedinteger
+            solve [Mitra et al. 2023], manual fixing of singularity positions, or
+            the running of a singularity matching procedure in post-processing [Mitra
+            et al. 2024]. Our global optimization also produces smooth knit graphs that
+            provide quick simulation-free previews of rendered knits without the surface
+            artifacts of competing methods. Furthermore, we extend our method to the
+            popular cut-and-sew garment design paradigm. We validate our method by
+            machine-knitting and rendering yarn-based visualizations of prototypical
+            models in the 3D and cut-and-sew settings.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>Coming soon!</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>,
+            licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
