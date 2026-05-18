@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Curl Quantization for Automatic Placement of Knit Singularities</title>
+  <link rel="icon" type="image/x-icon" href="static/images/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Surface Power Diagrams for Knit Singularity Placement</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://rahulmitra.xyz/" target="_blank">Rahul Mitra*</a>,</span>
+                <span class="author-block">
+                  <a href="https://mcouplet.github.io/" target="_blank">Mattéo Couplet*</a>,</span>
+                  <span class="author-block">
+                    <a href="https://www.richardliu.site/" target="_blank">Ruichen Liu</a>,</span>
+                    <span class="author-block">
+                      Jonathan Ng,</span>
+                    <span class="author-block">
+                      Ruza Markov,</span>
+                      <span class="author-block">
+                        Will Samosir,</span>
+                      <span class="author-block">
+                    <a href="https://www.megan-hofmann.com/" target="_blank">Megan Hofmann,</a></span>
+                    <span class="author-block">
+                    <a href="https://cs-people.bu.edu/edchien/" target="_blank">Edward Chien</a></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">Boston University, VARIANT3D, Northeastern University <br> SIGGRAPH, 2026</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="static/pdfs/paper.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img src="static/images/teaser.png"/>
+      <h2 class="subtitle has-text-centered">
+        Overview of our pipeline. (a) A knitting time function informs the direction of 
+        knitting. (b) A course and wale curl signal is computed from the normalized gradient of 
+        the time function. (c) Our method solves a semidiscrete optimal transport problem, 
+        represented by geodesic power diagrams, for both the positive and negative parts of 
+        the curl signal. (d) The centers of the cells inform placement of left/right short 
+        row ends for the courses and increases/decreases for the wales. 
+        (d) Using these singularities, a pair of orthogonal stripe patterns are computed 
+        for the course and wale directions, which are then (e) intersected to produce a 
+        helix-free knit graph. (f) Fabricated results of the Moai statue at two different 
+        knit graph resolutions dressed on 3D prints. The visualized graph corresponds to the 
+        larger knit.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present an algorithm for global knit structure planning that leverages a 
+            generalization of power diagrams to triangulated surfaces. This generalization 
+            is based on modified geodesic heat kernels and is used to quantize the curl 
+            measure of a normalized knitting time function gradient. Knit singularity positions 
+            are optimized jointly in a global fashion via an iterative Lloyd-type algorithm, 
+            leading to faster and more optimal placement of singularities than prior work, 
+            allowing for practical creation of denser knit graphs. In this denser setting, 
+            we present singularity ordering constraints that more robustly achieve helix-free 
+            knit graphs. The speed and robustness of the method is demonstrated via a diverse 
+            array of knits, and a virtual gallery of helix-free knit graphs. We also provide 
+            further demonstration of user constraints for knit singularity masking, level set 
+            alignment constraints, and apparent seam placement via curl boosting.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>Coming soon!</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>,
+            licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
