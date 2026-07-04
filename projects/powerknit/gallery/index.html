@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Knit Graph Viewer</title>
+
+  <style>
+    body { margin: 0; overflow: hidden; background: #111; font-family: sans-serif; }
+
+    #leftPanel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.55);
+      border-radius: 6px;
+      color: white;
+      z-index: 10;
+      width: 180px;
+    }
+
+    #rightPanel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.55);
+      border-radius: 6px;
+      color: white;
+      z-index: 10;
+      width: 180px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 6px;
+      padding: 6px;
+      border: none;
+      border-radius: 4px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background: #444; }
+
+    select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- LEFT PANEL -->
+<div id="leftPanel">
+  <strong>Display Controls</strong><br><br>
+  <button id="toggleShort">Toggle Short-Row Highlight</button>
+  <button id="toggleArrows">Toggle Arrows (Faster without)</button>
+  <button id="toggleInc">Toggle Increases (Green)</button>
+  <button id="toggleDec">Toggle Decreases (Yellow)</button>
+</div>
+
+<!-- RIGHT PANEL -->
+<div id="rightPanel">
+  <strong>Select Graph</strong><br>
+  <select id="graphSelect">
+    <option value="sock.json">sock.json</option>
+    <option value="bunny.json">bunny.json</option>
+    <option value="misc_cactus.json">misc_cactus</option>
+    <option value="glove.json">glove</option>
+    <option value="doughnut.json">doughnut</option>
+    <option value="dress.json">dress (sleeveless)</option>
+    <option value="pipes.json">pipes</option>
+    <option value="duck.json">duck</option>
+    <option value="heart.json">heart</option>
+    <option value="dress_full_sleeve.json">dress (full sleeve)</option>
+    <option value="B71.json">B71</option>
+    <option value="pants.json">pants</option>
+    <option value="B42.json">B42</option>
+    <option value="B10-constrained.json">box (Constrained)</option>
+    <option value="B10-no-constrained.json">box (No constraint)</option>
+    <option value="moai.json">moai</option>
+    <option value="shoe-upper-masking.json">shoe upper (masked)</option>
+    <option value="shoe-upper-no-masking.json">shoe upper (unmasked)</option>
+    <option value="elbow_sleeve.json">elbow sleeve</option>
+    <option value="split_2_3.json">split-2-3</option>
+    <option value="split_1_2.json">split-1-2</option>
+    <option value="beanie-no-seams.json">beanie (no seams)</option>
+    <option value="beanie-seams.json">beanie (seams)</option>
+    <option value="retinal.json">retinal</option>
+  </select>
+</div>
+
+<script type="module">
+
+  import * as THREE from './modules/three.module.js';
+  import { OrbitControls } from './modules/OrbitControls.js';
+
+  // ---------------- SETUP ----------------
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x111111);
+
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 2000);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+
+
+  // ---------------- OBJECT HOLDERS ----------------
+
+  let normalEdgesObj = null;
+  let shortEdgesObj  = null;
+  let incObj         = null;
+  let decObj         = null;
+  let arrowGroup     = null;
+
+  // short-row materials (need outer-scope so toggle can see them)
+  let shortMatOn  = null;
+  let shortMatOff = null;
+
+  // UI toggles
+  let shortHighlight = true;
+  let showInc        = true;
+  let showDec        = true;
+  let showArrows     = true;
+
+
+  // ---------------- CLEANUP ----------------
+
+  function clearOldObjects() {
+    if (normalEdgesObj) scene.remove(normalEdgesObj);
+    if (shortEdgesObj)  scene.remove(shortEdgesObj);
+    if (incObj)         scene.remove(incObj);
+    if (decObj)         scene.remove(decObj);
+    if (arrowGroup)     scene.remove(arrowGroup);
+
+    normalEdgesObj = null;
+    shortEdgesObj  = null;
+    incObj         = null;
+    decObj         = null;
+    arrowGroup     = null;
+
+    // materials can be reused across loads, no need to null them
+  }
+
+
+  // ---------------- DRAW GRAPH ----------------
+
+  function drawGraph(data) {
+    clearOldObjects();
+
+    const verts     = data.vertices;
+    const edges     = data.edges;
+    const shortrows = data.shortrows;
+    const increases = data.increases;
+    const decreases = data.decreases;
+
+    const v3 = verts.map(v => new THREE.Vector3(v[0], v[1], v[2]));
+
+    // Center the model
+    const bbox = new THREE.Box3().setFromPoints(v3);
+    const center = bbox.getCenter(new THREE.Vector3());
+    const size = bbox.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+
+    camera.position.set(center.x, center.y + 0.8 * maxDim, center.z + 2.5 * maxDim);
+    controls.target.copy(center);
+
+    const normalPos = [];
+
+    // -------------------------------
+    // NORMAL EDGES (gray)
+    // -------------------------------
+    edges.forEach((e, i) => {
+      if (!shortrows[i]) {
+        const [u, v] = e;
+        const A = v3[u].clone().sub(center);
+        const B = v3[v].clone().sub(center);
+        normalPos.push(A.x, A.y, A.z, B.x, B.y, B.z);
+      }
+    });
+
+    const gN = new THREE.BufferGeometry();
+    gN.setAttribute("position", new THREE.Float32BufferAttribute(normalPos, 3));
+    normalEdgesObj = new THREE.LineSegments(
+      gN, new THREE.LineBasicMaterial({ color: 0x888888 })
+    );
+    scene.add(normalEdgesObj);
+
+
+    // -------------------------------------------------
+    // FIND SHORT-ROW SEQUENCES & ASSIGN RANDOM COLORS
+    // -------------------------------------------------
+
+    const rowOut = new Map();
+    edges.forEach((e, i) => {
+      if (shortrows[i]) {
+        const [u, v] = e;
+        rowOut.set(u, v);
+      }
+    });
+
+    function randomColor() {
+      return Math.floor(Math.random() * 0xffffff);
+    }
+
+    const shortRowColors = {};  // edgeIndex → random color
+    const used = new Set();
+
+    edges.forEach((e, i) => {
+      if (!shortrows[i] || used.has(i)) return;
+
+      const color = randomColor();
+      const seq = [];
+
+      // Follow row_out chain
+      let [u, v] = e;
+      seq.push(i);
+      used.add(i);
+
+      while (rowOut.has(v)) {
+        const nextU = v;
+        const nextV = rowOut.get(v);
+
+        const idx = edges.findIndex(ed => ed[0] === nextU && ed[1] === nextV);
+        if (idx === -1) break;
+
+        seq.push(idx);
+        used.add(idx);
+
+        v = nextV;
+      }
+
+      // Assign same random color to entire sequence
+      seq.forEach(edgeIndex => {
+        shortRowColors[edgeIndex] = color;
+      });
+    });
+
+
+    // -------------------------------------------------
+    // SHORT-ROW MATERIALS (OUTER-SCOPE VARS)
+    // -------------------------------------------------
+
+    shortMatOn = new THREE.LineBasicMaterial({
+      vertexColors: true
+    });
+
+    shortMatOff = new THREE.LineBasicMaterial({
+      color: 0x555555
+    });
+
+
+    // -------------------------------------------------
+    // CREATE GEOMETRY WITH PER-EDGE RANDOM COLORS
+    // -------------------------------------------------
+
+    const shortGeom = new THREE.BufferGeometry();
+    const sPos = [];
+    const sCol = [];
+
+    edges.forEach((e, i) => {
+      if (!shortrows[i]) return;
+
+      const [u, v] = e;
+      const A = v3[u].clone().sub(center);
+      const B = v3[v].clone().sub(center);
+
+      sPos.push(A.x, A.y, A.z, B.x, B.y, B.z);
+
+      const col = new THREE.Color(shortRowColors[i]);
+      sCol.push(col.r, col.g, col.b, col.r, col.g, col.b);
+    });
+
+    shortGeom.setAttribute("position", new THREE.Float32BufferAttribute(sPos, 3));
+    shortGeom.setAttribute("color",    new THREE.Float32BufferAttribute(sCol, 3));
+
+    // Use highlight or neutral material depending on current toggle state
+    shortEdgesObj = new THREE.LineSegments(
+      shortGeom,
+      shortHighlight ? shortMatOn : shortMatOff
+    );
+    scene.add(shortEdgesObj);
+
+    // -------------------------------------------------
+    // INCREASE / DECREASE MARKERS (small spheres)
+    // -------------------------------------------------
+    const incGroup = new THREE.Group();
+    const decGroup = new THREE.Group();
+
+    // size scaled with maxDim
+    const markerRadius = 0.003 * maxDim;
+    const sphereGeo = new THREE.SphereGeometry(markerRadius, 12, 12);
+
+    const incMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const decMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+
+    increases.forEach((flag, vid) => {
+      if (!flag) return;
+      const p = v3[vid].clone().sub(center);
+      const marker = new THREE.Mesh(sphereGeo, incMat);
+      marker.position.copy(p);
+      incGroup.add(marker);
+    });
+
+    decreases.forEach((flag, vid) => {
+      if (!flag) return;
+      const p = v3[vid].clone().sub(center);
+      const marker = new THREE.Mesh(sphereGeo, decMat);
+      marker.position.copy(p);
+      decGroup.add(marker);
+    });
+
+    incObj = incGroup;
+    decObj = decGroup;
+
+    incObj.visible = showInc;
+    decObj.visible = showDec;
+
+    scene.add(incObj);
+    scene.add(decObj);
+
+
+    // -------------------------------------------------
+    //  ARROWS (unchanged)
+    // -------------------------------------------------
+
+    arrowGroup = new THREE.Group();
+    const arrowColor = 0x00ffff;
+    const head = 0.005 * maxDim;
+    const lenFactor = 0.005;
+
+    edges.forEach((e, i) => {
+      const [u, v] = e;
+      if (v === -1) return;
+
+      const start = v3[u].clone().sub(center);
+      const end   = v3[v].clone().sub(center);
+      const dir   = end.clone().sub(start).normalize();
+      const dist  = start.distanceTo(end);
+
+      const arrow = new THREE.ArrowHelper(
+        dir,
+        start,
+        dist * lenFactor,
+        arrowColor,
+        head,
+        head * 0.6
+      );
+      arrowGroup.add(arrow);
+
+      const outCountU = increases[u] ? 2 : 1;
+      const inCountV  = decreases[v] ? 2 : 1;
+
+      if (outCountU >= 2 || inCountV >= 2) {
+        const a2 = new THREE.ArrowHelper(
+          dir,
+          start,
+          dist * lenFactor,
+          arrowColor,
+          head,
+          head * 0.6
+        );
+        arrowGroup.add(a2);
+      }
+    });
+
+    arrowGroup.visible = showArrows;
+    scene.add(arrowGroup);
+  }
+
+
+  // ---------------- LOAD GRAPH ----------------
+
+  async function loadGraphFile(filename) {
+    const resp = await fetch(filename);
+    const data = await resp.json();
+    drawGraph(data);
+  }
+
+  document.getElementById("graphSelect").addEventListener("change", () => {
+    loadGraphFile(document.getElementById("graphSelect").value);
+  });
+
+  const selector = document.getElementById("graphSelect");
+  loadGraphFile(selector.value);
+
+  // ---------------- UI BUTTONS ----------------
+
+  document.getElementById("toggleShort").onclick = () => {
+    shortHighlight = !shortHighlight;
+    if (!shortEdgesObj || !shortMatOn || !shortMatOff) return;
+
+    // Swap materials — no opacity changes, always rendered
+    shortEdgesObj.material = shortHighlight ? shortMatOn : shortMatOff;
+    shortEdgesObj.material.needsUpdate = true;
+  };
+
+  document.getElementById("toggleArrows").onclick = () => {
+    showArrows = !showArrows;
+    if (arrowGroup) arrowGroup.visible = showArrows;
+  };
+
+  document.getElementById("toggleInc").onclick = () => {
+    showInc = !showInc;
+    if (incObj) incObj.visible = showInc;
+  };
+
+  document.getElementById("toggleDec").onclick = () => {
+    showDec = !showDec;
+    if (decObj) decObj.visible = showDec;
+  };
+
+
+  // ---------------- RENDER LOOP ----------------
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+</script>
+</body>
+</html>
